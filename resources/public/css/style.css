@@ -12,3 +12,11 @@ html, body, #map {
   position: absolute;
   width: 100%;
 }
+
+.info {
+  height: 200px;
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  background-color: grey;
+}

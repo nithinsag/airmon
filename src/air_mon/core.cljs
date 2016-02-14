@@ -39,13 +39,21 @@
             map-options (clj->js {"center" (google.maps.LatLng. -34.397, 150.644)
                                   "zoom" 8})]
         (js/google.maps.Map. map-canvas map-options))
-
       )
-
     om/IRender
     (render [_]
       (dom/div #js {:id "map" :className "map"} ) ) ) )
 
+
+(defn info-element
+  [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "info"} "You will find some meters here")
+      )
+    )
+  )
 
 (defn  root-element [data owner]
   (reify om/IRender
@@ -54,6 +62,8 @@
 
                (om/build header-element nil)
                (om/build map-element nil)
+               (om/build info-element nil)
+
                ))))
 (om/root
  root-element
