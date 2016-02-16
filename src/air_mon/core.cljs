@@ -32,13 +32,25 @@
 (defn map-element
   [data owner]
   (reify
+    om/IShouldUpdate
+    (should-update[_, next-props, next-state]
+      false)
     om/IDidMount
     (did-mount [_]
       (println "Map Mounted!")
       (let [map-canvas (om/get-node owner)
             map-options (clj->js {"center" (google.maps.LatLng. -34.397, 150.644)
-                                  "zoom" 8})]
-        (js/google.maps.Map. map-canvas map-options))
+                                  "zoom" 8})
+            map (js/google.maps.Map. map-canvas map-options)
+            marker-options (clj->js {"position" (google.maps.LatLng. -34.074, 150.644)
+                                     "title" "Sample Marker"
+                                     "map" map
+                                     })
+            ]
+
+        (js/google.maps.Marker. marker-options)
+        (println marker-options)
+        )
       )
     om/IRender
     (render [_]
@@ -54,6 +66,7 @@
       )
     )
   )
+
 
 (defn  root-element [data owner]
   (reify om/IRender
