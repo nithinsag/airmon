@@ -7,12 +7,10 @@
 
 (enable-console-print!)
 
-(println "Edits to this text should show up in your developer console.")
-
+(println "Air Monitor dash ready!")
 ;; define your app data so that it doesn't get over-written on reload
 
 (defonce app-state (atom {:text "Hello world!"}))
-
 
 (defn header-element
   [data owner]
@@ -32,9 +30,10 @@
 (defn map-element
   [data owner]
   (reify
-    om/IShouldUpdate
-    (should-update[_, next-props, next-state]
-      false)
+    ;; om/IShouldUpdate
+    ;; (should-update[_, next-props, next-state]
+    ;;   (println "should update called")
+    ;;   true)
     om/IDidMount
     (did-mount [_]
       (println "Map Mounted!")
@@ -49,7 +48,8 @@
             ]
 
         (js/google.maps.Marker. marker-options)
-        (println marker-options)
+
+
         )
       )
     om/IRender
