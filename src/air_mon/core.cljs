@@ -13,6 +13,12 @@
 
 (defonce app-state (atom {:text "Hello world!"}))
 
+(defn create-marker! [lat long map title]
+  (let [marker-options (clj->js {"position" (google.maps.LatLng. lat,long)
+                                 "title" title
+                                 "map" map }) ]
+    (js/google.maps.Marker. marker-options) ) )
+
 (defn header-element
   [data owner]
   (reify
@@ -51,13 +57,10 @@
             map-options (clj->js {"center" (google.maps.LatLng. -34.397, 150.644)
                                   "zoom" 8})
             map (js/google.maps.Map. map-canvas map-options)
-            marker-options (clj->js {"position" (google.maps.LatLng. -34.074, 150.644)
-                                     "title" "Sample Marker"
-                                     "map" map
-                                     })
-            ]
 
-        (js/google.maps.Marker. marker-options)
+           ]
+
+        (create-marker! -34.397, 150.644,  map "Some Location")
 
 
         )
