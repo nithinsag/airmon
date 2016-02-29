@@ -3,7 +3,8 @@
             [om-bootstrap.panel :as p]
             [om-bootstrap.button :as b]
             [om-bootstrap.nav :as n]
-            [om.dom :as dom :include-macros true]))
+            [om.dom :as dom :include-macros true]
+            [cljs.core.async :refer [put! chan <!]]))
 
 (enable-console-print!)
 
@@ -26,6 +27,15 @@
 
                                   ) ) ) ) ))
 
+
+(defn floating-add-marker-button
+  [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "marker-button"
+                    :onClick (fn[e] (.log js/console "button clicked"))}
+               "add marker" ) ) ) )
 
 (defn map-element
   [data owner]
@@ -75,6 +85,7 @@
 
                (om/build header-element nil)
                (om/build map-element nil)
+               (om/build  floating-add-marker-button nil)
                (om/build info-element nil)
 
                ))))

@@ -20,3 +20,14 @@ html, body, #map {
   bottom:0;
   background-color: grey;
 }
+
+.marker-button {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 100px;
+  right: 50px;
+  background-color: magenta;
+  border-radius: 50%;
+  padding: 25px  25px;
+}
