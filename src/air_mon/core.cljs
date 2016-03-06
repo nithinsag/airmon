@@ -1,4 +1,6 @@
 (ns air-mon.core
+  (:require-macros
+ [cljs.core.async.macros :refer[go-loop]])
   (:require [om.core :as om :include-macros true]
             [om-bootstrap.panel :as p]
             [om-bootstrap.button :as b]
@@ -7,6 +9,8 @@
             [cljs.core.async :refer [put! chan <!]]))
 
 (enable-console-print!)
+
+(def c (chan))
 
 (println "Air Monitor dash ready!")
 ;; define your app data so that it doesn't get over-written on reload
@@ -40,7 +44,9 @@
     om/IRender
     (render [_]
       (dom/div #js {:className "marker-button"
-                    :onClick (fn[e] (.log js/console "button clicked"))}
+                    :onClick (fn[e] (put! c "button clicked")
+                               (. e preventDefault)
+                               )}
                "add marker" ) ) ) )
 
 (defn map-element
@@ -97,6 +103,11 @@
  app-state
  {:target (. js/document (getElementById "app"))})
 
+
+(go-loop []
+  (let [x (<! c)]
+    (println "Got a value in this loop:" x))
+  (recur))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
